@@ -7,7 +7,7 @@ package com.mycompany.movieappspring.controllers;
 import com.mycompany.movieappspring.pojo.Action;
 import com.mycompany.movieappspring.pojo.Movie;
 import com.mycompany.movieappspring.pojo.Search;
-import com.mycompany.movieappspring.service.BrowseMoviesService;
+import com.mycompany.movieappspring.service.MoviesService;
 import java.util.Arrays;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,8 +16,6 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
@@ -28,7 +26,7 @@ import org.springframework.web.servlet.ModelAndView;
 public class MovieController {
     
     @Autowired
-    BrowseMoviesService browseService;
+    MoviesService movieService;
     
     @GetMapping("/index.htm")
     public String showIndexGetHandler(ModelMap model, Action action) {
@@ -46,6 +44,9 @@ public class MovieController {
             mv.addObject("search", search);
             return mv;
         } else {
+            mv.setViewName("add-movie");
+            Movie movie = new Movie();
+            mv.addObject("movie", movie);
             return mv;
         }
     }
@@ -57,7 +58,7 @@ public class MovieController {
     
     @PostMapping("/search")
     public ModelAndView searchHandler(@ModelAttribute("search") Search search) {
-        List<Movie> movies = browseService.getMovies(search);
+        List<Movie> movies = movieService.getMovies(search);
         for(Movie movie : movies) {
             System.out.println(movie.getActor());
         }
@@ -68,9 +69,16 @@ public class MovieController {
         return mv;
     }
     
-//    @RequestMapping(value = "/MovieAppSpring/browse", method = RequestMethod.GET)
-//    public String browseMovies() {
-//        System.out.println("Inside");
-//        return "search";
-//    }
+    @PostMapping("/add-success")
+    public ModelAndView addMovie(@ModelAttribute("movie") Movie movie) {
+        ModelAndView mv = new ModelAndView();
+        mv.setViewName("add-success");
+        boolean inserted = movieService.addMovie(movie);
+        if(inserted) {
+            System.out.println("Movie inserted");
+        } else {
+            System.out.println("Movie not inserted");
+        }
+        return mv;
+    }
 }

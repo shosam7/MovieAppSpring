@@ -6,10 +6,9 @@ package com.mycompany.movieappspring.service;
 
 import com.mycompany.movieappspring.pojo.Movie;
 import com.mycompany.movieappspring.pojo.Search;
-import jakarta.servlet.RequestDispatcher;
-import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -24,16 +23,16 @@ import org.springframework.stereotype.Component;
  * @author sho7
  */
 @Component
-public class BrowseMoviesService {
+public class MoviesService {
 
     Connection con;
 
-    public BrowseMoviesService() {
+    public MoviesService() {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             con = DriverManager.getConnection("jdbc:mysql://localhost/moviedb", "root", "12345678");
         } catch (ClassNotFoundException | SQLException ex) {
-            Logger.getLogger(BrowseMoviesService.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(MoviesService.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -67,19 +66,29 @@ public class BrowseMoviesService {
             }
             return movieList;
         } catch (SQLException ex) {
-            Logger.getLogger(BrowseMoviesService.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(MoviesService.class.getName()).log(Level.SEVERE, null, ex);
             //out.println("SQL Error " + ex);
-        } finally {
-            try {
-                if (stmt != null) {
-                    stmt.close();
-                }
-                System.out.println("All connections closed in search");
-            } catch (SQLException e) {
-                Logger.getLogger(BrowseMoviesService.class.getName()).log(Level.SEVERE, null, e);
-                //out.println("SQL Error during closing connections in search" + e);
-            }
         }
         return null;
+    }
+
+    public boolean addMovie(Movie movie) {
+        PreparedStatement preparedStatement = null;
+        try {
+            String sql = "INSERT INTO movies (title,actor,actress,genre,year) VALUES (?,?,?,?,?)";
+            preparedStatement = con.prepareStatement(sql);
+            System.out.println(preparedStatement);
+            preparedStatement.setString(1, movie.getTitle());
+            preparedStatement.setString(2, movie.getActor());
+            preparedStatement.setString(3, movie.getActress());
+            preparedStatement.setString(4, movie.getGenre());
+            preparedStatement.setInt(5, movie.getYear());
+            int affectedRows = preparedStatement.executeUpdate();
+            return true;
+        } catch (SQLException ex) {
+            //out.println("SQL Error " + ex);
+            Logger.getLogger(MoviesService.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
     }
 }

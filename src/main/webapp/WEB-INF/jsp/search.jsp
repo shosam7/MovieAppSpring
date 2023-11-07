@@ -10,7 +10,7 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Document</title>
+        <title>Browse Movies</title>
     </head>
     <body>
         <h1>Search for movies using:</h1>

@@ -5,7 +5,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Result JSP Page</title>
+        <title>Result Page</title>
     </head>
     <body>
         <h3>You searched for movies with ${requestScope.search.searchBy} as
