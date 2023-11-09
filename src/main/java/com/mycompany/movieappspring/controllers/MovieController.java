@@ -59,9 +59,6 @@ public class MovieController {
     @PostMapping("/search")
     public ModelAndView searchHandler(@ModelAttribute("search") Search search) {
         List<Movie> movies = movieService.getMovies(search);
-        for(Movie movie : movies) {
-            System.out.println(movie.getActor());
-        }
         ModelAndView mv = new ModelAndView();
         mv.setViewName("result");
         mv.addObject("search", search);
