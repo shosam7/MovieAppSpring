@@ -4,8 +4,8 @@
  */
 package com.mycompany.movieappspring.service;
 
-import com.mycompany.movieappspring.pojo.Movie;
-import com.mycompany.movieappspring.pojo.Search;
+import com.mycompany.movieappspring.models.Movie;
+import com.mycompany.movieappspring.models.Search;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;

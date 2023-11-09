@@ -4,9 +4,9 @@
  */
 package com.mycompany.movieappspring.controllers;
 
-import com.mycompany.movieappspring.pojo.Action;
-import com.mycompany.movieappspring.pojo.Movie;
-import com.mycompany.movieappspring.pojo.Search;
+import com.mycompany.movieappspring.models.Action;
+import com.mycompany.movieappspring.models.Movie;
+import com.mycompany.movieappspring.models.Search;
 import com.mycompany.movieappspring.service.MoviesService;
 import java.util.Arrays;
 import java.util.List;

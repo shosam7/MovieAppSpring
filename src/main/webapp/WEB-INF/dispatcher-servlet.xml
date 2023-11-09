@@ -19,7 +19,7 @@
     for the index controller we are using ParameterizableViewController, so we must
     define an explicit mapping for it.
     -->
-<!--    <bean id="urlMapping" class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+    <!--    <bean id="urlMapping" class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
         <property name="mappings">
             <props>
                 <prop key="index.htm">indexController</prop>
@@ -32,16 +32,20 @@
           p:prefix="/WEB-INF/jsp/"
           p:suffix=".jsp" />
 
-<!--    
-    The index controller.
-    
-    <bean name="indexController"
-          class="org.springframework.web.servlet.mvc.ParameterizableViewController"
-          p:viewName="index" />-->
+    <!--    
+The index controller.
+
+<bean name="indexController"
+    class="org.springframework.web.servlet.mvc.ParameterizableViewController"
+    p:viewName="index" />-->
     
     <!-- Enables the Spring MVC @Controller programming model -->
     <mvc:annotation-driven />
     <context:annotation-config />
     <context:component-scan base-package="com.mycompany.movieappspring.controllers" />
+    
+    <mvc:interceptors>
+        <bean id="sanitizeInputInterceptor" class="com.mycompany.movieappspring.interceptor.SanitizeInputInterceptor"/>
+    </mvc:interceptors>
 
 </beans>
